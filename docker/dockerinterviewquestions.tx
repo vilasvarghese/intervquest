@@ -1,0 +1,220 @@
+Q1: What is Docker? ⭐
+Answer:
+
+	Docker is a containerization platform which packages your application and all its dependencies together in the form of containers so as to ensure that your application works seamlessly in any environment be it development or test or production.
+	Docker containers, wrap a piece of software in a complete filesystem that contains everything needed to run: code, runtime, system tools, system libraries etc. anything that can be installed on a server.
+	This guarantees that the software will always run the same, regardless of its environment.
+
+
+Q2: How to build envrionment-agnostic systems with Docker? ⭐⭐
+Answer:
+	There are three main features helping to achieve that:
+	Volumes
+	Environment variable injection
+	Read-only file systems
+
+Q3: Can you remove (‘docker rm’) a container that is paused? ⭐⭐
+Answer:
+
+No, to remove a container it must be stopped first.
+
+Q4: When would you use ‘docker kill’ or ‘docker rm -f’? ⭐⭐
+Answer:
+
+If you must stop the container really quickly… (someone pushed something to production on Friday evening?… ;) )
+
+Q5: How to link containers? ⭐⭐
+Answer:
+
+The simplest way is to use network port mapping. There’s also the - -link flag which is deprecated.
+
+Q6: What is the difference between a Docker image and a container? ⭐⭐
+Answer:
+
+An instance of an image is called a container. You have an image, which is a set of layers. If you start this image, you have a running container of this image. You can have many running containers of the same image.
+
+You can see all your images with docker images whereas you can see your running containers with docker ps (and you can see all containers with docker ps -a).
+
+So a running instance of an image is a container.
+
+
+Q7: What is the difference between the COPY and ADD commands in a Dockerfile? ⭐⭐
+Answer:
+
+Although ADD and COPY are functionally similar, generally speaking, COPY is preferred.
+
+That’s because it’s more transparent than ADD. COPY only supports the basic copying of local files into the container, while ADD has some features (like local-only tar extraction and remote URL support) that are not immediately obvious. Consequently, the best use for ADD is local tar file auto-extraction into the image, as in ADD rootfs.tar.xz /.
+
+Q8: What is the difference between CMD and ENTRYPOINT in a Dockerfile? ⭐⭐
+Answer:
+
+Both CMD and ENTRYPOINT instructions define what command gets executed when running a container. There are few rules that describe their co-operation.
+
+Dockerfile should specify at least one of CMD or ENTRYPOINT commands.
+ENTRYPOINT should be defined when using the container as an executable.
+CMD should be used as a way of defining default arguments for an ENTRYPOINT command or for executing an ad-hoc command in a container.
+CMD will be overridden when running the container with alternative argumen
+
+Q9: How do I transfer a Docker image from one machine to another one without using a repository, no matter private or public? ⭐⭐
+Answer:
+
+You will need to save the Docker image as a tar file:
+
+docker save - o <path for generated tar file> <image name>
+Then copy your image to a new system with regular file transfer tools such as cp or scp. After that you will have to load the image into Docker:
+
+docker load -i <path to image tar file>
+
+Q10: What is Docker image? ⭐⭐
+Answer:
+
+Docker image is the source of Docker container. In other words, Docker images are used to create containers. Images are created with the build command, and they’ll produce a container when started with run. Images are stored in a Docker registry such as registry.hub.docker.com because they can become quite large, images are designed to be composed of layers of other images, allowing a minimal amount of data to be sent when transferring images over the network.
+
+
+Q11: What is Docker container? ⭐⭐
+Answer:
+
+Docker containers include the application and all of its dependencies, but share the kernel with other containers, running as isolated processes in user space on the host operating system. Docker containers are not tied to any specific infrastructure: they run on any computer, on any infrastructure, and in any cloud.
+
+
+Q12: What is Docker hub? ⭐⭐
+Answer:
+
+Docker hub is a cloud-based registry service which allows you to link to code repositories, build your images and test them, stores manually pushed images, and links to Docker cloud so you can deploy images to your hosts. It provides a centralized resource for container image discovery, distribution and change management, user and team collaboration, and workflow automation throughout the development pipeline.
+
+
+Q13: Do I lose my data when the Docker container exits? ⭐⭐
+Answer:
+
+There is no loss of data when any of your Docker containers exits as any of the data that your application writes to the disk in order to preserve it. This will be done until the container is explicitly deleted. The file system for the Docker container persists even after the Docker container is halted.
+
+Q14: What are the various states that a Docker container can be in at any given point in time? ⭐⭐
+Answer:
+
+There are four states that a Docker container can be in, at any given point in time. Those states are as given as follows:
+
+Running
+Paused
+Restarting
+Exited
+
+Q15: Is there a way to identify the status of a Docker container? ⭐⭐
+Answer:
+
+We can identify the status of a Docker container by running the command
+
+docker ps –a
+which will in turn list down all the available docker containers with its corresponding statuses on the host. From there we can easily identify the container of interest to check its status correspondingly.
+
+
+Q16: What is Build Cache in Docker? ⭐⭐
+Answer:
+
+When we build an Image, Docker will process each line in Dockerfile. It will execute the commands on each line in the order that is mentioned in the file. But at each line, before running any command, Docker will check if there is already an existing image in its cache that can be reused rather than creating a new image.
+
+
+
+
+Q17: What are the most common instructions in Dockerfile? ⭐⭐
+Answer:
+
+Some of the common instructions in Dockerfile are as follows:
+
+FROM: We use FROM to set the base image for subsequent instructions. In every valid Dockerfile, FROM is the first instruction.
+LABEL: We use LABEL to organize our images as per project, module, licensing etc. We can also use LABEL to help in automation.
+In LABEL we specify a key value pair that can be later used for programmatically handling the Dockerfile.
+RUN: We use RUN command to execute any instructions in a new layer on top of the current image. With each RUN command we add something on top of the image and use it in subsequent steps in Dockerfile.
+CMD: We use CMD command to provide default values of an executing container. In a Dockerfile, if we include multiple CMD commands, then only the last instruction is used.
+
+Q18: What type of applications - Stateless or Stateful are more suitable for Docker Container? ⭐⭐
+Answer:
+
+It is preferable to create Stateless application for Docker Container. We can create a container out of our application and take out the configurable state parameters from application. Now we can run same container in Production as well as QA environments with different parameters. This helps in reusing the same Image in different scenarios. Also a stateless application is much easier to scale with Docker Containers than a stateful application.
+
+
+Q19: What is the difference between ‘docker run’ and ‘docker create’? ⭐⭐
+Answer:
+
+The primary difference is that using ‘docker create’ creates a container in a stopped state.
+
+Bonus point: You can use ‘docker create’ and store an outputed container ID for later use. The best way to do it is to use ‘docker run’ with --cidfile FILE_NAME as running it again won’t allow to overwrite the file. A good practice is to keep well ogranised directory structure: /containers/web/server1/ws.cid containers/web/server3/ws.cid
+
+Q20: What’s the difference between a repository and a registry? ⭐⭐
+Answer:
+
+Docker registry is a service for hosting and distributing images (the default one is the Docker Hub).
+Docker repository is a collection of related Docker images (the same name but with different tags).
+
+Q21: What is the default CPU limit set for a container? ⭐⭐⭐
+
+Q22: Can you create containers wihout their own PID namespace? ⭐⭐⭐
+
+Q23: Explain basic Docker usage workflow ⭐⭐⭐
+
+Q24: What is the difference between Docker Image and Layer? ⭐⭐⭐
+
+Q25: What is virtualisation? ⭐⭐⭐
+
+Q26: What is Hypervisor? ⭐⭐⭐
+
+Q27: Could you explain what is Emulation? ⭐⭐⭐
+
+Q28: Should I use Vagrant or Docker for creating an isolated environment? ⭐⭐⭐
+
+Q29: What is the difference between CMD and ENTRYPOINT in a Dockerfile? ⭐⭐⭐
+
+Q30: What is the difference between “expose” and “publish” in Docker? ⭐⭐⭐
+
+Q31: Docker Compose vs. Dockerfile - which is better? ⭐⭐⭐
+
+Q32: What is Docker Swarm? ⭐⭐⭐
+
+Q33: What is the preferred way of removing containers - ‘docker rm -f’ or ‘docker stop’ then followed by a ‘docker rm’? ⭐⭐⭐
+
+Q34: What exactly do you mean by “Dockerized node”? Can this node be on-premises or in the cloud? ⭐⭐⭐
+
+Q35: How can we control the startup order of services in Docker compose? ⭐⭐⭐
+
+I have a container which depends on a redis databse container. However, it takes longer for redis to load in memory which causes the first container to exit. I was wondering if there is a better alternative as I would try to avoid the wait for it script?
+
+
+Q36: How will you monitor Docker in production? ⭐⭐⭐
+
+Q37: What is the purpose of EXPOSE command in Dockerfile? ⭐⭐⭐
+
+Q38: What happens if you add more than one CMD instruction to a Dockerfile? ⭐⭐⭐
+
+Q39: When you limit the memory for a container, does it reserve (guarantee) the memory? ⭐⭐⭐⭐
+
+Q40: What is an orphant volume and how to remove it? ⭐⭐⭐⭐
+
+Q41: How virtualization works at low level? ⭐⭐⭐⭐
+
+Q42: What is Paravirtualization? ⭐⭐⭐⭐
+
+Q43: How is Docker different from a virtual machine? ⭐⭐⭐⭐
+
+Q44: Is it possible to generate a Dockerfile from an image? ⭐⭐⭐⭐
+
+Q45: Can you explain dockerfile ONBUILD instruction? ⭐⭐⭐⭐
+
+Q46: What are the different kinds of namespaces available in a Container? ⭐⭐⭐⭐
+
+Q47: Is it good practice to run stateful applications on Docker? What are the scenarios where Docker best fits in? ⭐⭐⭐⭐
+
+Q48: What is the difference between Docker RUN, CMD and ENTRYPOINT? ⭐⭐⭐⭐
+
+Q49: Can you run Docker containers natively on Windows? ⭐⭐⭐⭐
+
+Q50: How did Docker jump from version 1.13 to 17.03? ⭐⭐⭐⭐⭐
+
+Q51: How does Docker run containers in non-Linux systems? ⭐⭐⭐⭐⭐
+
+Q52: How containers works at low level? ⭐⭐⭐⭐⭐
+
+Q53: Name some limitations of containers vs VM ⭐⭐⭐⭐⭐
+
+Q54: How to use Docker with multiple environments? ⭐⭐⭐⭐⭐
+
+Q55: Why Docker compose does not wait for a container to be ready before moving on to start next service in dependency order? ⭐⭐⭐⭐⭐
+

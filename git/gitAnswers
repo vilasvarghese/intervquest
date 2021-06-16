@@ -1,0 +1,294 @@
+Answer
+
+1. : You can check if there is a ".git" directory inside it.
+
+2. : Find it yourself
+
+3. git pull = git fetch + git merge
+	When you run git pull, it gets all the changes from the remote or central repository and attaches it to your corresponding branch in your local repository.
+
+	git fetch gets all the changes from the remote repository, stores the changes in a separate branch in your local repository
+
+
+4. 
+	
+	The Git directory is where Git stores the meta data and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+
+	The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+
+	The staging area is a simple file (.git/index), generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+
+	generally each commit is done by 3 different directories inside objects folder.
+	Refer to the video or notes for further details
+
+	This answer taken from git-scm.com
+	Refer: 
+	https://www.linkedin.com/pulse/git-internals-how-works-kaushik-rangadurai/
+	https://www.daolf.com/posts/git-series-part-1/
+
+
+5. Use merge tools to identify the delta. Get the files fixed, 
+	git add .
+	git commit -m "<comment>
+	git push origin master
+	
+6. 
+git revert creates a new commit which undoes the changes from last commit.
+
+git reset depends on the usage, can modify the index or change the commit which the branch head is currently pointing at.
+
+7. https://www.designveloper.com/blog/git-concepts-architecture/
+
+8. https://manivelarjunan.medium.com/git-merge-vs-rebase-reset-vs-revert-vs-checkout-dd5674d0e18a
+
+9. 
+git rebase 
+
+10. When there are no changes since branching in the master/source branch
+
+11. 
+This page explains it the best: https://git-scm.com/docs/merge-strategies
+
+
+12. git diff
+
+13. git checkout HEAD~1 -- /path/of/the/file
+
+14. 
+The .git folder contains all the information that is necessary for your project in version control and all the information about commits, remote repository address, etc. All of them are present in this folder. It also contains a log that stores your commit history so that you can roll back to history.
+This info copied from https://stackoverflow.com/questions/29217859/what-is-the-git-folder
+
+
+15. 	
+
+		rm -rf 
+	
+	To remove the file from the Git repository and the filesystem (working dir), use:
+		git rm file1.txt
+		git commit -m "remove file1.txt"
+		
+	But if you want to remove the file only from the Git repository and not remove it from the filesystem, use:
+		git rm --cached file1.txt
+		git commit -m "remove file1.txt"	
+
+	To remove directory and content 
+		git rm -r directory 
+		- r can be used with all above commands to do it recursively on directories.
+
+	To remove sensitive data - Avoid as much as possible(from all commit's in history too)
+		https://help.github.com/articles/remove-sensitive-data/
+	
+	To revert the previous stage
+		git reset
+	or v2.24.0+ use
+		git restore --staged .
+
+
+16. 	Move the hello.html file to the lib directory
+		mkdir lib
+		git mv hello.html lib
+		git status
+
+	By moving files with git, we notify git about two things
+		hello.html file was deleted.
+		lib/hello.html file was created.
+	Both facts are staged immediately and ready for a commit. 
+	Git status command reports the file has been moved.
+
+	So it is equivalent to 
+		mkdir lib
+		mv hello.html lib
+		git add lib/hello.html
+		git rm hello.html
+
+
+17. 	Unstage all files you might have staged with git add:
+		git reset
+
+	Revert all local uncommitted changes (should be executed in repo root):
+		git checkout .	
+
+	Revert uncommitted changes only to particular file or directory:
+		git checkout [some_dir|file.txt]
+
+	Revert all uncommitted changes (longer to type, but works from any subdirectory):
+		git reset --hard HEAD
+
+	Remove all local untracked files, so only git tracked files remain:
+		git clean -fdx
+
+	WARNING: -x will also remove all ignored files, including ones specified by .gitignore! You may want to use -n for preview of files to be deleted.
+
+
+	Nothing in Git is deleted, so when you work in Git, you can undo your work.
+	
+	When you can undo changes
+	In the standard Git workflow:
+		Untracked files: New file created
+		Unstaged files: Edit a staged file. 
+			Untracked is also a unstaged file.
+		Index files/Staged files:  
+			git add, git mv etc.
+		Committed file 
+			(git commit).
+		File pushed to remote repo.
+			(git push).
+
+
+#Undo unstaged local changes
+----------------------------
+	Confirm that the file is unstaged 
+	(that you did not use git add <file>) 
+		
+		$ git status
+
+	To overwrite local changes:
+		git checkout -- <file>
+
+	To save local changes so you can re-use them later:
+		git stash
+
+	To discard local changes to all files, permanently:
+		git reset --hard
+
+
+#Undo staged local changes
+--------------------------
+Confirm that the file is staged 
+	(that you used git add <file>) 
+
+	$ git status
+
+	To unstage the file but keep your changes:
+		git restore --staged <file>
+
+	To unstage everything but keep your changes:
+		git reset
+
+	To unstage the file to current commit (HEAD):
+		git reset HEAD <file>
+
+	To discard all local changes, but save them for later:
+		git stash
+
+	To discard everything permanently:
+		git reset --hard
+
+
+#Quickly save local changes
+---------------------------
+If you want to change to another branch
+	git stash.
+
+From the branch where you want to save your work, 
+	git stash.
+
+	Swap to another branch (git checkout <branchname>).
+		Commit, push, and test.
+	Return to the branch where you want to resume your changes.
+	Use git stash list to list all previously stashed commits.
+	Run a version of git stash:
+		Use git stash pop 
+			to redo previously stashed changes and remove them from stashed list.
+		Use git stash apply 
+			to redo previously stashed changes, but keep them on stashed list.
+
+Further details : https://docs.gitlab.com/ee/topics/git/numerous_undo_possibilities_in_git/
+
+
+
+18. 	Restore working dir to the latest in remote repo.
+		$ git checkout HEAD filename
+
+	$ git log --oneline
+		79a4e5f bad take
+		f449007 The second commit
+		55df4c2 My great project, first commit.
+
+	$ git checkout 55df4c2 filename
+
+
+19. https://opensource.com/article/18/6/git-reset-revert-rebase-commands
+
+20. https://davidzych.com/difference-between-git-reset-soft-mixed-and-hard/
+
+21. 		define them in .gitignore
+	
+	If you have added new files 
+		Before running the actual command and removing untracked files and directories use the -n option that will perform a “dry run” and show you what files and directories will be deleted:
+
+			git clean -d -n 
+			
+		To delete the file
+			git clean -d -f
+
+
+
+22. https://www.javatpoint.com/git-branch
+
+23. How do you Switch branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	git checkout <branch>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+24. How do you Create and switch branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	git checkout -b <branch>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+25. How do you Switch branches with uncommitted changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		always, add, commit or stash your changes before switching
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+26. How do you Compare branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	git diff <branch1> <branch2>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+27. How do you Rename branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	https://linuxize.com/post/how-to-rename-local-and-remote-git-branch/
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+28. How do you Delete branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Delete local branches
+		delete merged branch
+			git branch -d <branch>
+			
+		delete unmerged branch
+			git branch -D <branch>
+	
+	Delete remote branch
+		git push <remote> --delete <branch>
+		git push origin --delete fix/authentication
+		
+	Reference: https://www.freecodecamp.org/news/how-to-delete-a-git-branch-both-locally-and-remotely/	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+29. How do you Configure the command prompt to show the branch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+		https://docs.gitlab.com/ee/gitlab-basics/start-using-git.html
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+30. How do you Merge Branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		https://www.javatpoint.com/git-merge-and-merge-conflict
+
+31. Fast-forward merge vs. true merge
+		https://medium.com/@koteswar.meesala/git-fast-forward-merge-vs-three-way-merge-8591434dd350
+		https://www.atlassian.com/git/tutorials/using-branches/git-merge
+
+32. How do you reduce merge conflicts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Proper branching strategy
+	Merge asap (at least once a day)
+			
+
+Other common learnings
+Prevention rules:
+	Whenever it is possible, use a new file in preference to an existing one
+	(the only ambiguity could happen is the same name and path of the file)
+	Do not always put your changes at the end of a file
+	(decreases the probability of editing the same line of code)
+	Do not organise imports
+	(decreases the probability of editing the same line of code)
+	Do not beautify a code outside of your changes
+	(decreases the probability of editing the same line of code)
+	Push and pull changes as often as you can
+	(Mitigates distributed nature of Git)

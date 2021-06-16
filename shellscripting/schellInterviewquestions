@@ -1,0 +1,204 @@
+1. How to calculate the number of passed arguments?
+
+		Answer:
+		# cat test.sh
+		#!/usr/bin/env bash
+		echo "Number of Parameters passed:$#"
+
+		# ./test.sh p1 p2 p3 p4
+		Number of Parameters passed:4
+
+2. How to get script name inside a script?
+
+		Answer:
+		# cat test.sh
+		#!/usr/bin/env bash
+		echo "Script Name:$0"
+
+		# ./test.sh
+		Script Name:./test.sh
+		
+3. How to debug a shell script
+	using 
+	set -x
+	set +x
+	
+4. How to get the 3rd element/column from each line from a file?
+
+		Answer:
+		# cat test.sh
+		#!/usr/bin/env bash
+		cat > test.txt <<EOF
+		col11 col12 col13 col14 col15
+		col21 col22 col23 col24 col25
+		col31 col32 col33 col34 col35
+		EOF
+
+		awk '{print $3}' ${1}
+
+		# ./test.sh test.txt
+		col13
+		col23
+		col33
+		
+5. Difference between different quotes in shell
+
+6. Write down the Syntax for all the loops in Shell Scripting.
+
+		Answer:
+		For Loop:
+
+		for var in word1 word2 ... wordN
+		do
+		   Statement(s) to be executed for every word.
+		done
+		While Loop:
+
+		while command
+		do
+		   Statement(s) to be executed if command is true
+		done
+		Until Loop:
+
+		until command
+		do
+		   Statement(s) to be executed until command is true
+		done
+		
+		
+7. What are the default permissions of a file when it is created?
+
+	Answer:
+	On Linux and other Unix-like operating systems, new files are created with a default set of permissions. The umask or user mask command is used to determine the default permissions for newly created files. It is a 4-digit Octal number which is set and expressed using symbolic values. The default permission of a file when it is created is 664 i.e. rw-rw-r-. The table for file permissions is given below;
+
+	0	0	No permissions
+	1	1	execute
+	2	2	write
+	3	1+2	execute + write
+	4	4	read
+	5	1+4	execute + read
+	6	2+4	write + read
+	7	1+2+4	execute + write + read		
+	
+8. How to print all the arguments provided to the script?
+
+	Answer:
+	#!/usr/bin/env bash
+	for i;do echo $i ;done
+
+	# ./test.sh a b c d e f
+	a
+	b
+	c
+	d
+	e
+	f	
+	
+	
+9. How to print PID of the current shell?
+
+	Answer:
+	#!/usr/bin/env bash
+	for PID in $$; do
+		echo ${PID}
+	done
+
+	# ./test.sh
+	3950
+	
+	
+10. How to print all array elements and their respective indexes?
+
+	Answer:
+	#!/usr/bin/env bash
+	array=("This" "is" "a" "test")
+	echo "Array elements:${array[@]}"
+	echo "Array element index:${!array[@]}"
+
+	# ./test.sh
+	Array elements:This is a test
+	Array element index:0 1 2 3	
+	
+11. How to print the first array element?
+
+	Answer:
+	#!/usr/bin/env bash    
+	array=("This" "is" "Shell" "Scripting" )    
+	echo "First element:${array[0]}"    
+	echo "All elements:${array[@]}"
+
+	$ ./test.sh
+	First element:This
+	All elements:This is Shell Scripting	
+	
+12. How many fields are present in a crontab file and what does each field specify?
+
+	Answer:
+	The crontab file has six fields. The first five fields contain information on when to execute the command and they are as follows;
+
+	minute(0-59)
+	hour(0-23)
+	day(1-31)
+	month(1-12)
+	day of the week(0-6, Sunday = 0).
+	The sixth field contains the command to be executed.	
+	
+	
+13. How to declare a constant
+		
+	Find yourself
+	
+14. disk space usage script
+
+15. cpu usage script
+
+16. Print a given number, in reverse order using a Shell script such that the input is provided using command Line Argument only.
+
+-------------------------------
+#!/usr/bin/env bash
+Usage(){
+    echo "Usage: $0 number"
+    echo " Reverse of the given number will be printed"
+    echo " For eg. $0 0123, 3210 will be printed"
+    exit 1
+}
+
+[ $# -ne 1  ] && Usage
+
+n=$1
+rev=0
+sd=0
+
+while [ $n -gt 0  ]
+do
+    sd=$(( n % 10 ))
+    rev=$(( rev * 10 + sd ))
+    n=$(( n / 10 ))
+done
+echo "Reverse results:$rev"
+-------------------------------
+
+
+17. Write a script to print the first 10 elements of Fibonacci series.
+
+Answer:
+#!/usr/bin/env bash
+for i in {1..10}; do
+    if [[ ${i} -eq 1 || ${i} -eq 2 ]]; then
+	a=1
+	b=1
+	echo 1
+    else
+	c=$b
+        b=$((a + b))
+	a=$c
+	echo $b
+    fi
+done
+
+
+18. What is the difference between $$ and $!?
+
+Answer:
+$$ gives the process id of the currently executing process whereas $! Shows the process id of the process that recently went into the background.
+

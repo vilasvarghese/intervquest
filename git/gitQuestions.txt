@@ -1,0 +1,65 @@
+1. How do you know if a certain directory is a git repository?
+
+2. How to check if a file is tracked and if not, then track it?
+
+3. What is the difference between git pull and git fetch?
+	
+4. Explain the following: git directory, working directory and staging area
+
+5. How to resolve git merge conflicts?
+
+6. What is the difference between git reset and git revert?
+
+7. Explain the three-trees architecture
+	
+
+8. Explain git workflow
+
+9. You would like to move forth commit to the top. How would you achieve that?
+
+10. In what situations are you using git rebase?
+
+11. What merge strategies are you familiar with?
+
+12. How can you see which changes have done before committing them?
+
+13. How do you revert a specific file to previous commit?
+
+14. What is the .git directory? What can you find there?
+
+	
+15. What are the various delete files conditions and how do you delete them
+
+16. How do you move and rename files
+
+17. What are the various undo changes options
+
+18. How do you retrieve old versions
+
+19. Differerence between revert, reset and rebase
+
+20. Differerence between soft reset, mixed reset and hard reset
+
+21. How do you remove untracked files
+
+22. Explain git branching 
+
+23. How do you Switch branches
+
+24. How do you Create and switch branches
+
+25. How do you Switch branches with uncommitted changes
+
+26. How do you Compare branches
+
+27. How do you Rename branches
+
+28. How do you Delete branches
+
+29. How do you Configure the command prompt to show the branch
+
+30. How do you Merge Branches
+
+31. Fast-forward merge vs. true merge
+
+32. How do you reduce merge conflicts

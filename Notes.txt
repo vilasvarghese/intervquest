@@ -1,0 +1,15 @@
+
+DevOpsQuestions
+	https://github.com/bregman-arie/devops-exercises
+	https://github.com/sunilsoni/interview-notes
+
+
+Maven Question
+https://github.com/sendkumaranil/Maven
+
+Shell_interview_Q-A
+	https://github.com/79laowang/Shell_interview_Q-A
+	https://linoxide.com/shell-scripting-interview-questions-answers/
+	
+	
+	
